@@ -1,0 +1,5 @@
+/dist/
+/gcli
+/gcli.exe
+*.test
+*.out

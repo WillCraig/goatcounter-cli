@@ -1,0 +1,57 @@
+version: 2
+
+project_name: gcli
+
+builds:
+  - id: gcli
+    main: ./cmd/gcli
+    binary: gcli
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w -X github.com/WillCraig/goatcounter-cli/internal/cli.Version={{ .Tag }}
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - formats: [tar.gz]
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files:
+      - LICENSE
+      - README.md
+
+checksum:
+  name_template: checksums.txt
+
+brews:
+  - name: gcli
+    directory: Formula
+    homepage: https://github.com/WillCraig/goatcounter-cli
+    description: Command-line client for the GoatCounter API
+    repository:
+      owner: WillCraig
+      name: homebrew-tap
+    install: |
+      bin.install "gcli"
+
+scoops:
+  - name: gcli
+    directory: bucket
+    homepage: https://github.com/WillCraig/goatcounter-cli
+    description: Command-line client for the GoatCounter API
+    repository:
+      owner: WillCraig
+      name: homebrew-tap
+
+changelog:
+  sort: asc
